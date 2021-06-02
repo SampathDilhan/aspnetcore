@@ -9,12 +9,12 @@ namespace System.Runtime.RateLimits
     public abstract class AggregatedRateLimiter<TKey>
     {
         // an inaccurate view of resources
-        public abstract int EstimatedCount(TKey resourceID);
+        public abstract long EstimatedCount(TKey resourceID);
 
         // Fast synchronous attempt to acquire resources
-        public abstract PermitLease Acquire(TKey resourceID, int requestedCount);
+        public abstract PermitLease Acquire(TKey resourceID, long requestedCount);
 
         // Wait until the requested resources are available
-        public abstract ValueTask<PermitLease> WaitAsync(TKey resourceID, int requestedCount, CancellationToken cancellationToken = default);
+        public abstract ValueTask<PermitLease> WaitAsync(TKey resourceID, long requestedCount, CancellationToken cancellationToken = default);
     }
 }
