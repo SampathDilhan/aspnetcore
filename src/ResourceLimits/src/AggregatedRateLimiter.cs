@@ -5,16 +5,16 @@ using System.Threading.Tasks;
 
 namespace System.Runtime.RateLimits
 {
-    // Represent an aggregated resource (e.g. a resource limiter aggregated by IP)
+    // Represent an aggregated rate limit (e.g. a rate limiter aggregated by IP)
     public abstract class AggregatedRateLimiter<TKey>
     {
         // an inaccurate view of resources
-        public abstract long EstimatedCount(TKey resourceID);
+        public abstract int AvailablePermits(TKey resourceID);
 
         // Fast synchronous attempt to acquire resources
-        public abstract PermitLease Acquire(TKey resourceID, long requestedCount);
+        public abstract PermitLease Acquire(TKey resourceID, int permitCount);
 
         // Wait until the requested resources are available
-        public abstract ValueTask<PermitLease> WaitAsync(TKey resourceID, long requestedCount, CancellationToken cancellationToken = default);
+        public abstract ValueTask<PermitLease> WaitAsync(TKey resourceID, int permitCount, CancellationToken cancellationToken = default);
     }
 }
